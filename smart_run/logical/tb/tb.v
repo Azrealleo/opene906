@@ -259,12 +259,8 @@ begin
        $dumpfile("test.vcd");
        $dumpvars;  
     `else
-      `ifdef VCD_DUMP
-        $dumpfile("test.vcd");
-        $dumpvars;
-      `else
-        $fsdbDumpvars();
-      `endif
+      $fsdbDumpfile("test.fsdb");
+      $fsdbDumpvars(0, tb);
     `endif
   `endif
 end

@@ -21,7 +21,6 @@ include ./setup/env_check.mk
 ################################################################################
 SIM = iverilog
 DUMP = off
-WAVE_FORMAT ?= fsdb
 
 ifeq ($(DUMP), on)
 SIM_DUMP :=
@@ -35,13 +34,16 @@ endif
 
 ifeq ($(SIM), vcs)
 TIMESCALE := -timescale=1ns/100fs
-ifeq ($(WAVE_FORMAT), vcd)
-SIMULATOR_OPT := -sverilog -full64 +nospecify +notimingchecks
-SIMULATOR_DEF := +define+no_warning +define+TSMC_NO_WARNING +define+VCD_DUMP
-else
-SIMULATOR_OPT := -sverilog -full64 -kdb -lca -debug_access +nospecify +notimingchecks
-SIMULATOR_DEF := +define+no_warning +define+TSMC_NO_WARNING
+ifeq ($(DUMP), on)
+ifeq ($(strip $(NOVAS_HOME)),)
+$(error NOVAS_HOME must point to the Verdi installation when VCS FSDB dumping is enabled)
 endif
+VCS_FSDB_OPT := -P $(NOVAS_HOME)/share/PLI/VCS/LINUX64/novas.tab $(NOVAS_HOME)/share/PLI/VCS/LINUX64/pli.a
+else
+VCS_FSDB_OPT :=
+endif
+SIMULATOR_OPT := -sverilog -full64 -lca -debug_access+all $(VCS_FSDB_OPT) +nospecify +notimingchecks
+SIMULATOR_DEF := +define+no_warning +define+TSMC_NO_WARNING
 SIMULATOR_LOG := -l comp.vcs.log
 else 
     ifeq ($(SIM), nc) 
@@ -84,7 +86,7 @@ else
 endif 
 
 cleansim:
-	@cd ./work && rm -rf simv* csrc ucli.key *.vcs.log novas_dump.log *.fsdb *.vcd
+	@cd ./work && rm -rf simv* csrc ucli.key *.vcs.log novas_dump.log *.fsdb
 
 ################################################################################
 # Cases related
@@ -181,11 +183,9 @@ help:
 	@echo "    SIM=                            : options: vcs / nc"; 
 	@echo "    CASE=                           : options: the list print by 'make showcase'"; 
 	@echo "    DUMP=                           : options: on / off";
-	@echo "    WAVE_FORMAT=                    : VCS dump format: fsdb / vcd";
 	@echo "  Examples:";
 	@echo "    make runcase CASE=dhry          : run case 'dhry' (by iverilog withtout dump) "; 
 	@echo "    make runcase CASE=dhry SIM=nc   : run case 'dhry' (by nc withtout dump) "; 
 	@echo "    make runcase CASE=dhry DUMP=on  : run case 'dhry' with dump "; 
-	@echo "    make runcase CASE=dhry SIM=vcs DUMP=on WAVE_FORMAT=vcd : run VCS with VCD dump";
 
 
