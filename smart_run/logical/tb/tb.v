@@ -260,7 +260,7 @@ begin
        $dumpvars;  
     `else
       $fsdbDumpfile("test.fsdb");
-      $fsdbDumpvars(0, tb);
+      $fsdbDumpvars(0, tb, "+all");
     `endif
   `endif
 end
