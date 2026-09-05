@@ -22,3 +22,7 @@ novas_dump.log
 # Logs and reports
 *.log
 *.report
+
+# Local Xuantie toolchain
+/Xuantie-900-gcc-elf-newlib-x86_64-V3.2.0-20250627.tar.gz
+/Xuantie-900-gcc-elf-newlib-x86_64-V3.2.0-20250627/

@@ -35,27 +35,27 @@ FLAG_MARCH = -mtune=e906
 #CPU_ARCH_FLAG_1 => DSP: dsp, nodsp 
 ifeq (${CPU_ARCH_FLAG_1}, nodsp)
   ifeq (${CPU_ARCH_FLAG_0}, e906f)
-    FLAG_MARCH += -march=rv32imafc
+    FLAG_MARCH += -march=rv32imafc_zicsr_zifencei
     FLAG_ABI   = -mabi=ilp32f
   else
     ifeq (${CPU_ARCH_FLAG_0}, e906d)
-      FLAG_MARCH += -march=rv32imafdc
+      FLAG_MARCH += -march=rv32imafdc_zicsr_zifencei
       FLAG_ABI   = -mabi=ilp32d
     else
-      FLAG_MARCH += -march=rv32imac
+      FLAG_MARCH += -march=rv32imac_zicsr_zifencei
       FLAG_ABI   = -mabi=ilp32
     endif
   endif
 else 
   ifeq (${CPU_ARCH_FLAG_0}, e906f)
-    FLAG_MARCH += -march=rv32imafcpzp64
+    FLAG_MARCH += -march=rv32imafcpzp64_zicsr_zifencei
     FLAG_ABI   = -mabi=ilp32f
   else
     ifeq (${CPU_ARCH_FLAG_0}, e906d)
-      FLAG_MARCH += -march=rv32imafdcpzp64
+      FLAG_MARCH += -march=rv32imafdcpzp64_zicsr_zifencei
       FLAG_ABI   = -mabi=ilp32d
     else
-      FLAG_MARCH += -march=rv32imacpzp64
+      FLAG_MARCH += -march=rv32imacpzp64_zicsr_zifencei
       FLAG_ABI   = -mabi=ilp32
     endif
   endif
