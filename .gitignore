@@ -1,0 +1,24 @@
+# openE906 simulation workspace
+smart_run/work/*
+
+# Waveforms
+*.vcd
+*.fsdb
+
+# Simulator outputs
+*.vvp
+simv*
+csrc/
+ucli.key
+novas_dump.log
+
+# Build outputs
+*.o
+*.elf
+*.obj
+*.pat
+*.hex
+
+# Logs and reports
+*.log
+*.report
